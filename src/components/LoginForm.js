@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {getAllOrdersActionCreator} from './../Store/Actions/actionCreator';
 import {connect} from 'react-redux'
-import Customer from './customer'
+import Customer from './Customer'
 class LoginForm extends Component {
 
     constructor(){
@@ -11,22 +11,33 @@ class LoginForm extends Component {
             customerType: false,
             customerView: false,
             staffView: false,
-            viewType: ''
+            viewType: '',
+            viewDetails: false
         }
        this.handleRequestChange =  this.handleRequestChange.bind(this);
        this.logIn =  this.logIn.bind(this);
+       this.openModal =  this.openModal.bind(this);
     }
     handleRequestChange(e){
         if(e.target.name === 'userIdName'){
             this.setState({userId: e.target.value})
         }
         else if(e.target.name === 'customerTypeName'){
-            this.setState({customerType: e.target.value})
+            this.setState({customerType: e.target.checked})
+        }
+    }
+    openModal(e){
+        if(e.target.innerText.trim() === 'Order Details'){
+            this.setState({viewDetails: true})
+        }
+        else if (e.target.innerText.trim() === 'Close'){
+            this.setState({viewDetails: false})
         }
     }
     logIn(){
         if(this.state.customerType){
             //Route to chef page
+            this.props.getAllOrdersActionCreator();
             this.setState({staffView: true, viewType: 'Staff'})
             this.props.history.push('/staff');
          }
@@ -41,7 +52,7 @@ class LoginForm extends Component {
             <React.Fragment>
                 <div className="container container-margin">
                 {
-                                !this.state.customerView && 
+                                !this.state.customerView && !this.state.staffView &&
                     <div className='card'>
                         <div className='card-body'>
                             
@@ -60,7 +71,7 @@ class LoginForm extends Component {
                     </div>
     }
                     {
-                                (this.state.customerView || this.state.staffView )&& <Customer orderData={this.props.allOrders} viewType={this.state.viewType}       />
+                                (this.state.customerView || this.state.staffView )&& <Customer orderData={this.props.allOrders} viewType={this.state.viewType}    viewDetails={this.state.viewDetails}  openModal={this.openModal} />
                             }
                 </div>
 

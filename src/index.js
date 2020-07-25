@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { createStore, combineReducers,applyMiddleware } from 'redux';
+import { createStore,applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import rootReducer from './Store/Reducer/rootReducer';

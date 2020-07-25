@@ -1,7 +1,12 @@
 
 import React from 'react'
 
-function customer(props) {
+//common Component for both customer and chef/staff
+function Customer(props) {
+    // const [viewDetails, setViewDetails] = useState(0)
+    // function openModal() {
+    //     setViewDetails(viewDetails)
+    // }
     return (
         <React.Fragment>
             <h4 className='text-center'>{props.viewType} View</h4>
@@ -16,7 +21,9 @@ function customer(props) {
                                             <div className="card-body">
                                                 <h5 className="card-title">Order ID:&nbsp;{item.id}</h5>
                                                 <p className="card-text">Current Status:&nbsp;{item.username}</p>
-                                                <a href="#" className="btn btn-primary">Go to Order Details</a>
+                                                <button type="button" className="btn btn-primary" onClick={(e)=>props.openModal(e)} data-toggle="modal" data-target="#exampleModal">
+                                                Order Details
+</button>
                                             </div>
                                         </div>
                                     )
@@ -25,10 +32,28 @@ function customer(props) {
                         </div>
                     </div>
                 </div>
+                {
+                    props.viewDetails && <div className={`modal ${props.viewDetails ? 'show' : 'fade'}`} id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden={!props.viewDetails} style={props.viewDetails ? {display:'block'} : {display:'none'}}>
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title" id="exampleModalLabel">Order Details</h5>
+                        </div>
+                        <div className="modal-body">
+                        <h6>Order Details can be shown here.</h6>
+                        </div>
+                        <div className="modal-footer">
+                          <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={(e)=>props.openModal(e)}>Close</button>
+                          {props.viewType === 'Staff' && <button type="button" className="btn btn-primary">Update Status</button>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
             </div>
 
         </React.Fragment>
     )
 }
 
-export default customer
+export default Customer
